@@ -1,0 +1,39 @@
+单链表排序
+void printAndSortList(struct Node* head) {
+    // 将链表元素存储在数组中
+    int count = 0;
+    struct Node* current = head;
+    while (current != NULL) {
+        count++;
+        current = current->next;
+    }
+
+    char* array = (char*)malloc(count * sizeof(char));
+    current = head;
+    for (int i = 0; i < count; i++) {
+        array[i] = current->data;
+        current = current->next;
+    }
+
+    // 冒泡排序
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                // 交换数组元素
+                char temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
+            }
+        }
+    }
+
+    // 输出排序后的数组元素
+    for (int i = 0; i < count; i++) {
+        printf("%c ", array[i]);
+    }
+
+    printf("\n");
+
+    // 释放数组内存
+    free(array);
+}
