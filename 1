@@ -1,0 +1,115 @@
+单链表排序没有实现，在正序输出那里改一下
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// 定义链表节点结构
+struct Node {
+    char data;
+    struct Node* next;
+};
+
+// 初始化链表
+struct Node* initializeList() {
+    return NULL;
+}
+
+// 插入节点到链表末尾
+struct Node* insertNode(struct Node* head, char data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        return newNode;
+    }
+
+    struct Node* current = head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    current->next = newNode;
+    return head;
+}
+
+// 正序输出链表
+void printList(struct Node* head) {
+    struct Node* current = head;
+    while (current != NULL) {
+        printf("%c ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// 合并两个链表并进行排序
+struct Node* mergeAndSortLists(struct Node* list1, struct Node* list2) {
+    struct Node* mergedList = NULL;
+
+    // 合并两个链表
+    while (list1 != NULL && list2 != NULL) {
+        if (list1->data < list2->data) {
+            mergedList = insertNode(mergedList, list1->data);
+            list1 = list1->next;
+        } else {
+            mergedList = insertNode(mergedList, list2->data);
+            list2 = list2->next;
+        }
+    }
+
+    // 将剩余元素插入合并后的链表
+    while (list1 != NULL) {
+        mergedList = insertNode(mergedList, list1->data);
+        list1 = list1->next;
+    }
+
+    while (list2 != NULL) {
+        mergedList = insertNode(mergedList, list2->data);
+        list2 = list2->next;
+    }
+
+    return mergedList;
+}
+
+int main() {
+    // 初始化两个链表
+    struct Node* list1 = initializeList();
+    struct Node* list2 = initializeList();
+
+    // 读取输入并分别插入两个链表
+    printf("请输入第一组字母：\n");
+    for (int i = 0; i < 5; i++) {
+        char letter;
+        scanf(" %c", &letter);
+        list1 = insertNode(list1, letter);
+    }
+
+    printf("请输入第二组字母：\n");
+    for (int i = 0; i < 5; i++) {
+        char letter;
+        scanf(" %c", &letter);
+        list2 = insertNode(list2, letter);
+    }
+
+    // 输出两个链表
+    printf("第一组字母正序输出：\n");
+    printList(list1);
+
+    printf("第二组字母正序输出：\n");
+    printList(list2);
+
+    // 合并并排序链表
+    struct Node* mergedList = mergeAndSortLists(list1, list2);
+
+    // 输出合并后的链表
+    printf("合并并排序后的字母序列：\n");
+    printList(mergedList);
+
+    // 释放内存
+    free(list1);
+    free(list2);
+    free(mergedList);
+
+    return 0;
+}
